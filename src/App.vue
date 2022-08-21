@@ -1,23 +1,23 @@
 <template>
   <div class="container">
     <h1>Posts app</h1>
-    <PostList v-bind:posts="posts"></PostList>
+    <hr>
+    <h2>Search posts</h2>
+    <p>Posts found: {{ postsCount }}</p>
+    <PostList v-bind:posts="allPosts"></PostList>
   </div>
 </template>
 
 <script>
 import PostList from './components/PostsList.vue';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'App',
-  data() {
-    return {
-      posts: []
-    }
-  },
+  computed: mapGetters(['allPosts', 'postsCount']),
+  methods: mapActions(['fetchPosts']),
   async mounted() {
-    const res = await fetch('https://jsonplaceholder.typicode.com/photos?_limit=10');
-    this.posts = await res.json(); 
+    this.fetchPosts(10);
   },
   components: {
     PostList
