@@ -1,27 +1,28 @@
 <template>
   <div class="container">
-    <h1>Posts app</h1>
+    <header>
+      <h1>Posts app</h1>
+
+      <nav>
+        <router-link class="nav-item" to="/">Home</router-link>
+        <router-link class="nav-item" to="/add-post">Add post</router-link>
+      </nav>
+    </header>
     <hr>
-    <h2>Search posts</h2>
-    <p>Posts found: {{ postsCount }}</p>
-    <PostList v-bind:posts="allPosts"></PostList>
+
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import PostList from './components/PostsList.vue';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'App',
-  computed: mapGetters(['allPosts', 'postsCount']),
   methods: mapActions(['fetchPosts']),
   async mounted() {
     this.fetchPosts(10);
   },
-  components: {
-    PostList
-  }
 }
 </script>
 
@@ -33,13 +34,17 @@ export default {
   color: #2c3e50;
 }
 
-h1 {
-  margin: 1rem;
-}
-
 .container {
   margin: 0 auto;
   padding-top: 1rem;
   max-width: 50rem;
+}
+
+h1 {
+  margin: 1rem;
+}
+
+.nav-item {
+  margin: 0 .5rem;
 }
 </style>
